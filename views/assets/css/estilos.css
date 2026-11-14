@@ -1,0 +1,317 @@
+/* Estilos de la Biblioteca Digital FISEI: iguales a las ventanas del sistema de escritorio (Java Swing) */
+:root {
+    --verde: #009999;          /* Estilos.VERDE */
+    --verde-titulo: #007a7a;   /* Estilos.VERDE_TITULO */
+    --verde-oscuro: #006262;   /* Estilos.VERDE_OSCURO */
+    --verde-suave: #e6f5f3;    /* Estilos.HOVER */
+    --seleccion: #d4eeeb;
+    --borde: #b9c6cc;          /* Estilos.BORDE */
+    --texto: #1f2b33;          /* Estilos.TEXTO */
+    --gris: #505a64;
+    --gris-claro: #eef1f3;
+    --rojo: #c62828;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    color: var(--texto);
+    background: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: var(--verde-titulo); }
+
+/* ---------- Encabezado verde (componentes.Encabezado) ---------- */
+.encabezado {
+    background: var(--verde);
+    color: #fff;
+    display: flex;
+    align-items: stretch;
+    padding: 10px 16px 12px 20px;
+    gap: 16px;
+    min-height: 152px;
+}
+.encabezado-izq { display: flex; gap: 8px; align-items: flex-start; min-width: 240px; }
+.encabezado-centro { flex: 1; text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+.encabezado-centro h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: .5px; }
+.encabezado-centro h2 { margin: 0; font-size: 18px; font-weight: 400; text-transform: uppercase; letter-spacing: .5px; }
+.encabezado-der { min-width: 240px; text-align: right; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+.encabezado-der strong { font-size: 25px; font-weight: 700; margin-bottom: 0; }
+.boton-regresar {
+    width: 110px; height: 100px;
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    background: #fff; color: var(--texto); text-decoration: none; font-size: 14px;
+    border: 1px solid var(--borde);
+}
+.boton-regresar:hover { background: var(--verde-suave); }
+.boton-regresar img { width: 38px; height: 38px; object-fit: contain; }
+
+.contenido { flex: 1; padding: 20px 16px 12px; }
+
+.pie {
+    background: var(--verde);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 16px;
+    font-size: 13px;
+}
+.pie .punto { color: #ffcc80; }            /* desconectado */
+.pie .conectado .punto { color: #b9f6ca; }
+
+/* ---------- Paneles con título (componentes.PanelGrupo) ---------- */
+.grupo {
+    background: #fff;
+    border: 2px solid var(--verde);
+    padding: 18px 14px 14px;
+    margin-top: 8px;
+    position: relative;
+}
+.grupo > h3 {
+    position: absolute;
+    top: -11px;
+    left: 4px;
+    margin: 0;
+    padding: 0 2px;
+    background: #fff;
+    color: var(--verde-titulo);
+    font-size: 14px;
+    font-weight: 700;
+}
+.fila { display: flex; gap: 20px; align-items: stretch; }
+.fila > .grupo, .fila > .columna { flex: 1; min-width: 0; }
+.columna { display: flex; flex-direction: column; gap: 22px; }
+.lateral { flex: 0 0 265px !important; }
+.lateral.ancha { flex-basis: 380px !important; }
+.lateral.media { flex-basis: 300px !important; }
+.lateral.amplia { flex-basis: 445px !important; }   /* Usuarios: igual de ancho que en Java */
+
+/* ---------- Formularios (PanelFormulario: etiqueta arriba, campo abajo) ---------- */
+.formulario { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 16px; }
+.formulario.dos { grid-template-columns: repeat(2, 1fr); }
+.formulario.uno { grid-template-columns: 1fr; }
+.campo { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.campo.ancho2 { grid-column: span 2; }
+.campo.ancho-todo { grid-column: 1 / -1; }
+label { color: var(--texto); font-size: 14px; }
+input[type=text], input[type=password], input[type=date], input[type=number], select {
+    height: 30px;
+    padding: 3px 8px;
+    border: 1px solid #c8d0d4;
+    border-bottom-color: #aab4ba;
+    border-radius: 0;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--texto);
+    background: #fff;
+}
+.campo input, .campo select { width: 100%; }
+input:focus, select:focus { outline: none; border-color: var(--verde); box-shadow: 0 0 0 1px var(--verde); }
+/* Como en Swing: las cajas bloqueadas siguen blancas y los combos bloqueados se ven grises */
+input[readonly], input:disabled { background: #fff; color: #59656c; border-color: #d8dee1; }
+select:disabled, select.bloqueado { background: #e4e8ea; color: #59656c; }
+select.bloqueado { pointer-events: none; }
+.campo-con-boton { display: flex; gap: 8px; }
+.campo-con-boton select { flex: 1; }
+.campo-con-boton .boton { min-width: 32px; padding: 0; }
+.separador { grid-column: 1 / -1; color: var(--verde-titulo); font-weight: 700; font-size: 14px;
+             border-bottom: 1px solid var(--borde); padding: 6px 0 4px; margin-top: 4px; }
+.ayuda { color: var(--gris); font-size: 12px; }
+
+/* ---------- Botones (componentes.BotonSistema) ---------- */
+.botones { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+/* Botones en fila: todos con el mismo espacio entre el texto y el borde (el sobrante se reparte igual) */
+.botones.repartidos { flex-wrap: nowrap; gap: 8px; }
+.botones.repartidos > .boton { flex: 1 1 auto; min-width: max-content; padding: 0 10px; white-space: nowrap; }
+.botones.rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.botones.rejilla .todo { grid-column: 1 / -1; }
+.botones.derecha { justify-content: flex-end; }
+.boton {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    height: 34px;
+    padding: 0 16px;
+    border: 1px solid var(--borde);
+    background: #fff;
+    color: var(--texto);
+    border-radius: 2px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    min-width: 96px;
+}
+.boton:hover { background: var(--verde-suave); border-color: var(--verde); }
+.boton:active { background: var(--verde); color: #fff; }
+.boton.primario { background: var(--verde-titulo); color: #fff; border-color: var(--verde-titulo); }
+.boton.primario:hover { background: var(--verde); }
+.boton:disabled, .boton.deshabilitado { background: var(--gris-claro); color: #a3adb3; border-color: #dfe4e7; cursor: default; pointer-events: none; }
+.boton.esperando { opacity: .75; cursor: wait; }
+.boton.icono { min-width: 34px; width: 34px; padding: 0; }
+.boton.icono img { width: 20px; height: 20px; }
+body.editando tr[data-href] { cursor: default; }
+body.editando tr[data-href]:hover td { background: inherit; }
+.boton img { width: 18px; height: 18px; }
+
+/* ---------- Búsqueda y tablas (BarraBusqueda / TablaObjetos) ---------- */
+.barra { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+.barra input[type=text] { flex: 1; }
+.barra label { white-space: nowrap; }
+.barra .boton { white-space: nowrap; flex: none; }
+/* Buscar y Limpiar: solo el icono, grande */
+.boton.solo-icono { width: 46px; min-width: 46px; height: 40px; padding: 0; justify-content: center; }
+.boton.solo-icono img { width: 30px; height: 30px; margin: 0; }
+.barra input[type=text] { min-width: 150px; }
+/* Las tablas llenan el alto de la ventana, como en el escritorio (sin barra de desplazamiento de la página) */
+.tabla-caja { height: calc(100vh - 360px); min-height: 200px; overflow: auto; border: 1px solid var(--borde); background: #fff; }
+.tabla-caja.alta { height: calc(100vh - 300px); }
+.tabla-caja.alta.con-nota { height: calc(100vh - 330px); }
+.tabla-caja.baja { height: calc(100vh - 560px); min-height: 140px; }
+.tabla-caja.media { height: calc(100vh - 470px); min-height: 180px; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th {
+    background: linear-gradient(#f4f5f6, #dde1e4);
+    text-align: left;
+    padding: 4px 6px;
+    position: sticky;
+    top: 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    border-right: 1px solid #c3cbd0;
+    border-bottom: 1px solid #b4bec4;
+    white-space: nowrap;
+}
+td { padding: 4px 6px; height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+tr:nth-child(even) td { background: #f2f2f2; }
+tbody tr[data-href], tbody tr.seleccionable { cursor: pointer; }
+tbody tr[data-href]:hover td, tbody tr.seleccionable:hover td { background: var(--verde-suave); }
+tr.elegida td, tr.marcada td { background: var(--seleccion) !important; }
+td input[type=checkbox] { margin: 0; }
+.vacio { color: var(--gris); text-align: center; padding: 18px; }
+.resumen { color: var(--texto); margin: 10px 0 0; font-size: 14px; }
+
+/* ---------- Avisos (se muestran también como alerta del navegador) ---------- */
+/* Mensajes del sistema: sin fondo, solo el texto de color con su icono */
+.aviso { padding: 4px 2px; margin-bottom: 12px; font-weight: 600; display: flex; align-items: flex-start; gap: 8px; }
+.aviso::before { flex: none; width: 20px; height: 20px; border-radius: 50%; color: #fff; font-size: 13px; line-height: 20px; text-align: center; }
+.aviso-exito { color: #1b8a3a; }
+.aviso-exito::before { content: "\2713"; background: #1b8a3a; }
+.aviso-error { color: var(--rojo); }
+.aviso-error::before { content: "\2715"; background: var(--rojo); }
+.franja-info { background: var(--verde-suave); color: var(--texto); padding: 10px 12px; margin-top: 14px; font-size: 13px; }
+.barra-libro { background: var(--verde-suave); padding: 10px 14px; margin-bottom: 14px; font-size: 14px; display: flex; gap: 32px; }
+
+/* ---------- Tarjetas (componentes.TarjetaIndicador) ---------- */
+.tarjetas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tarjetas.tres { grid-template-columns: repeat(3, 1fr); }
+.tarjetas.dos { grid-template-columns: repeat(2, 1fr); }
+.tarjetas.una { grid-template-columns: 1fr; }
+.tarjeta {
+    background: #fff;
+    border: 1px solid var(--verde);
+    padding: 12px 14px;
+    min-height: 82px;
+    display: flex; flex-direction: column; gap: 2px;
+}
+.tarjeta span { color: var(--gris); font-size: 13px; }
+.tarjeta strong { display: block; font-size: 28px; color: var(--verde-titulo); line-height: 1.25; }
+.tarjeta small { color: var(--gris); font-size: 12px; }
+.tarjeta.alerta { background: var(--rojo); border-color: var(--rojo); }
+.tarjeta.alerta span, .tarjeta.alerta strong, .tarjeta.alerta small { color: #fff; }
+.tarjeta.centrada { text-align: center; justify-content: center; }
+
+/* ---------- Menú principal (MenuAdmin / MenuBibliotecario) ---------- */
+.menu-grupos { display: flex; gap: 26px; }
+.menu-grupos > .grupo { flex: 1; min-height: calc(100vh - 335px); display: flex; align-items: center; justify-content: center; }
+.menu-grupos > .grupo.ancho { flex: 1.5; }
+.menu-grupos > .grupo.ancho .menu-botones { flex-wrap: nowrap; }
+.menu-botones { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.boton-menu {
+    width: 120px; height: 115px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    border: 1px solid var(--borde); background: #fff;
+    text-decoration: none; color: var(--texto); font-size: 14px;
+}
+.boton-menu:hover { background: var(--verde-suave); border-color: var(--verde); }
+.boton-menu img { width: 56px; height: 56px; object-fit: contain; }
+.menu-tarjetas { margin-top: 22px; }
+
+/* ---------- Huella y ficha del estudiante (componentes.PanelHuella) ---------- */
+.recuadro-huella {
+    width: 168px; height: 168px; margin: 4px auto 10px;
+    border: 2px dashed #7fbfba; background: #f2f9f8;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    color: var(--gris); font-size: 14px; text-align: center;
+}
+.recuadro-huella.ok { background: var(--seleccion); color: var(--verde-titulo); }
+.recuadro-huella.mal { background: #fdf1e8; color: #8a3a12; }
+.recuadro-huella img { width: 120px; }
+.recuadro-huella img.imagen-huella { width: auto; height: auto; max-width: 100%; max-height: 100%; }
+.huella-texto { text-align: center; color: var(--texto); font-size: 14px; margin: 0 0 10px; }
+.huella-texto.mal { color: #c62828; }
+[hidden] { display: none !important; }
+.muestras + .huella-texto { margin-top: 10px; }
+.muestras { background: var(--gris-claro); color: var(--verde-titulo); font-size: 12px; text-align: center; padding: 3px; margin-top: 10px; }
+.ficha { background: #f7f9fa; border: 1px solid var(--borde); padding: 14px 12px 12px; }
+.ficha h4 { margin: 0 0 14px; font-size: 16px; }
+.ficha p { margin: 2px 0; color: var(--gris); font-size: 13px; }
+.ficha .espacio { margin-top: 14px; }
+.franja { margin-top: 12px; padding: 8px; text-align: center; font-weight: 700; font-size: 13px; background: #e1e6e9; color: var(--gris); }
+.franja.ok { background: var(--seleccion); color: var(--verde-titulo); }
+.franja.mal { background: #fdf1e8; color: #8a3a12; }
+.datos-estudiante h4 { margin: 0 0 6px; font-size: 16px; }
+.datos-estudiante p { margin: 1px 0; color: var(--gris); font-size: 13px; }
+.subtitulo { color: var(--verde-titulo); font-weight: 700; font-size: 13px; margin: 16px 0 6px; }
+
+/* ---------- Bitácora: gráfico de barras y barras por operación ---------- */
+.grafico-caja { display: flex; gap: 6px; height: 205px; }
+.eje { display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--gris); padding-bottom: 18px; }
+.grafico { flex: 1; display: flex; align-items: flex-end; justify-content: space-around; border-left: 1px solid #dde3e6; border-bottom: 1px solid #dde3e6; padding: 0 8px 0;
+           background: repeating-linear-gradient(to top, #fff 0, #fff 35px, #eef1f2 35px, #eef1f2 36px); }
+.dia { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--gris); }
+.barras { display: flex; align-items: flex-end; gap: 3px; height: 170px; }
+.barra-exito { width: 16px; background: var(--verde); }
+.barra-fallo { width: 16px; background: #d4692b; }
+.leyenda { font-size: 12px; color: var(--gris); margin-bottom: 6px; display: flex; gap: 16px; padding-left: 30px; }
+.leyenda i { display: inline-block; width: 10px; height: 10px; margin-right: 5px; vertical-align: middle; }
+.operacion { margin-bottom: 14px; font-size: 13.5px; }
+.operacion div:first-child { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.progreso { height: 8px; background: #e8ecee; }
+.progreso div { height: 100%; background: var(--verde); }
+
+/* ---------- Inicio de sesión (vista.Login) ---------- */
+.login { flex: 1; display: flex; min-height: 100vh; }
+.login-marca {
+    flex: 0 0 41%;
+    background: var(--verde);
+    color: #fff;
+    padding: 0 9%;
+    display: flex; flex-direction: column; justify-content: flex-start; padding-top: 16vh;
+    position: relative;
+}
+.login-marca img { width: 175px; align-self: center; margin-bottom: 30px; margin-left: -60px; }
+.login-marca h1 { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.5; }
+.login-marca p { font-family: Cambria, Georgia, serif; font-size: 15px; line-height: 1.7; margin-top: 22px; }
+.login-panel { flex: 1; background: #f8f2f2; display: flex; align-items: center; justify-content: center; }
+.login-form { background: #fff; border: 1px solid #333; width: 420px; padding: 34px 50px 50px; }
+.login-form h2 { text-align: center; margin: 0 0 22px; font-size: 24px; font-weight: 700; }
+.pestanas { display: flex; margin-bottom: 22px; border: 1px solid var(--verde); }
+.pestanas a { flex: 1; text-align: center; padding: 8px; text-decoration: none; color: #3c4650; font-size: 14px; }
+.pestanas a.activa { background: var(--verde); color: #fff; font-weight: 700; }
+.login-form .campo { margin-bottom: 16px; }
+.login-form .campo label { font-size: 15px; }
+.login-form .boton { width: 100%; margin-top: 18px; height: 34px; font-weight: 700; }
+
+/* ---------- Parámetros ---------- */
+.parametros { max-width: 580px; margin: 26px auto 0; padding: 22px 18px 18px; }
+.parametros .formulario { gap: 18px 20px; }
+input.centrado { text-align: center; }
+.linea-arriba { border-top: 1px solid var(--borde); padding-top: 14px; }
+.filtros-bitacora { grid-template-columns: 1fr 1fr 1fr 1fr 130px; align-items: end; }
+.filtros-bitacora .boton { width: 100%; }
+.operacion strong { font-weight: 700; }
