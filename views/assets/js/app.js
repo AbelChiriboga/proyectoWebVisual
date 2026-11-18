@@ -126,6 +126,43 @@ if (lista) {
     });
 }
 
+// Préstamos: ventana "Agregar libros" (se abre con el botón y se cierra con Cerrar, la X o Escape)
+document.querySelectorAll('[data-abrir]').forEach(function (boton) {
+    var ventana = document.getElementById(boton.getAttribute('data-abrir'));
+    var abierta = ventana.querySelector('input[name=busqueda_abierta]');
+    function abrir() {
+        ventana.hidden = false;
+        abierta.value = '1';
+        ventana.querySelector('input[name=buscar]').focus();
+    }
+    function cerrar() {
+        ventana.hidden = true;
+        abierta.value = '0';
+        boton.focus();
+    }
+    boton.addEventListener('click', abrir);
+    ventana.querySelectorAll('[data-cerrar-ventana]').forEach(function (b) { b.addEventListener('click', cerrar); });
+    document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape' && !ventana.hidden) {
+            cerrar();
+        }
+    });
+    if (!ventana.hidden) {
+        ventana.querySelector('input[name=buscar]').focus();
+    }
+    // Un clic en la fila marca o desmarca su casilla
+    ventana.querySelectorAll('tr.seleccionable-libro').forEach(function (fila) {
+        fila.addEventListener('click', function (ev) {
+            if (ev.target.type === 'checkbox') {
+                return;
+            }
+            var c = fila.querySelector('input[type=checkbox]');
+            c.checked = !c.checked;
+            c.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    });
+});
+
 function contarMarcados() {
     var texto = document.getElementById('marcados');
     if (texto && lista) {

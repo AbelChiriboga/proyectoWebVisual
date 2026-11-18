@@ -11,10 +11,11 @@ class PrestamoController extends Controlador
     }
 
     /**
-     * $marcados son los ejemplares que el bibliotecario ya había marcado y $buscado lo que escribió para buscar.
-     * No se cargan todos los libros: solo los marcados y los que coinciden con la búsqueda.
+     * $marcados son los ejemplares ya agregados al préstamo y $buscado lo que se escribió en la ventana "Agregar libros".
+     * No se cargan todos los libros: solo los agregados y los que coinciden con la búsqueda.
+     * $abrirBusqueda = true vuelve a mostrar abierta la ventana "Agregar libros" (después de buscar o limpiar).
      */
-    public function index($marcados = [], $buscado = null)
+    public function index($marcados = [], $buscado = null, $abrirBusqueda = false)
     {
         $buscado = $buscado ?? $this->buscado() ?? '';
         $ejemplares = new Ejemplar();
@@ -53,6 +54,7 @@ class PrestamoController extends Controlador
             'encontrados' => array_slice($encontrados, 0, Ejemplar::MAXIMO_BUSQUEDA),
             'hayMas' => $hayMas,
             'tope' => Ejemplar::MAXIMO_BUSQUEDA,
+            'abrirBusqueda' => $abrirBusqueda,
             'devolverHasta' => $this->prestamos->fechaLimiteHoy(),
         ]);
     }
@@ -63,24 +65,45 @@ class PrestamoController extends Controlador
         $this->leerHuella('PRESTAMO', 'prestamo');
     }
 
-    /** Vuelve a mostrar la página con el estudiante ya identificado, los libros marcados y la búsqueda. */
+    /** Vuelve a mostrar la página con el estudiante ya identificado y los libros agregados (y la ventana si estaba abierta). */
     public function mostrar()
     {
         $this->exigirPost('c=prestamos');
-        $this->index($this->marcados(), $this->post('buscar'));
+        $this->index($this->marcados(), $this->post('buscar'), $this->post('busqueda_abierta') === '1');
     }
 
-    /** Botón Limpiar: borra lo buscado (conserva los libros marcados y el estudiante identificado). */
+    /** Ventana "Agregar libros", lupa: trae de la base solo los ejemplares disponibles que coinciden. */
+    public function buscar()
+    {
+        $this->exigirPost('c=prestamos');
+        $this->index($this->marcados(), $this->post('buscar'), true);
+    }
+
+    /** Ventana "Agregar libros", Limpiar: borra lo buscado (la ventana sigue abierta). */
     public function limpiar()
     {
         $this->exigirPost('c=prestamos');
-        $this->index($this->marcados(), '');
+        $this->index($this->marcados(), '', true);
     }
 
-    /** Botón Buscar: trae de la base solo los ejemplares disponibles que coinciden (conserva los marcados). */
-    public function buscar()
+    /** Ventana "Agregar libros", botón Agregar: suma al préstamo los ejemplares elegidos y cierra la ventana. */
+    public function agregar()
     {
-        $this->mostrar();
+        $this->exigirPost('c=prestamos');
+        $nuevos = array_map('intval', $_POST['agregar'] ?? []);
+        if (!$nuevos) {
+            $this->avisar('Seleccione al menos un libro.', 'error');
+            $this->index($this->marcados(), $this->post('buscar'), true);
+            return;
+        }
+        $this->index(array_values(array_unique(array_merge($this->marcados(), $nuevos))), '');
+    }
+
+    /** Botón Quitar de una fila: saca ese ejemplar del préstamo. */
+    public function quitar()
+    {
+        $this->exigirPost('c=prestamos');
+        $this->index(array_values(array_diff($this->marcados(), [(int) $this->post('quitar')])), '');
     }
 
     public function cancelar()
